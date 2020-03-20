@@ -118,23 +118,31 @@ class SortingRobot:
 
         self.set_light_on()
 
+        # While we still have data to sort
         while self.light_is_on():
+            # Turn off light so that if we don't swap, it will exit the loop and signal we're done
             self.set_light_off()
+
+            # While there are more positions to the right, we can still attempt sorting
             while self.can_move_right():
+                # Pickup item at current pos and move right to begin comparison
                 self.swap_item()
                 self.move_right()
 
+                # Item in hand is bigger than the current one on the floor
                 if self.compare_item() == 1:
+                    # Swap items, move back and place smaller item on floor, move forward, set light on to signify a swap was made
                     self.swap_item()
                     self.move_left()
                     self.swap_item()
                     self.move_right()
                     self.set_light_on()
                 else:
+                    # Our item is smaller than current pos, so move back and put it down, then move forward and continue
                     self.move_left()
                     self.swap_item()
                     self.move_right()
-            
+            # We are at the end of the list, so move back to start pos (0)
             while self.can_move_left():
                 self.move_left()
 
